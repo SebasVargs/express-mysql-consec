@@ -1,9 +1,16 @@
 const express = require('express');
 const db = require('./models'); // Importar correctamente los modelos
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 // Inicializamos Express
 const app = express();
+
+app.use(express.json());
+app.use(cors({
+    origin: ['http://192.168.1.16:4200', 'http://localhost:4200'],
+    credentials: true
+}));
 
 // Middleware para parsear JSON
 app.use(bodyParser.json());
@@ -17,7 +24,7 @@ const statusRoutes = require('./routes/statusRoutes');
 // Definir rutas
 app.use('/api/consecutives', consecutiveRoutes);
 app.use('/api/documents', documentRoutes);
-app.use('/api/statuses', statusRoutes);
+app.use('/api/status', statusRoutes);
 
 // Ruta básica para verificar que el servidor funciona
 app.get('/', (req, res) => {
@@ -46,7 +53,7 @@ const startServer = async () => {
     await db.sequelize.sync({ force: false }); // Usa force: true solo si quieres eliminar las tablas previas
 
     // Levantar el servidor
-    const port = process.env.PORT || 3000;
+    const port = process.env.PORT || 4000;
     app.listen(port, () => {
       console.log(`Servidor escuchando en el puerto ${port}`);
     });

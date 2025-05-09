@@ -2,11 +2,6 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
   const Document = sequelize.define('Document', {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
-    },
     source_file: {
       type: DataTypes.STRING,
       allowNull: false,

@@ -2,11 +2,6 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
   const Consecutive = sequelize.define('Consecutive', {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
-    },
     date_soli: {
       type: DataTypes.DATE,
       allowNull: false,
