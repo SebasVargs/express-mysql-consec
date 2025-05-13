@@ -17,4 +17,7 @@ router.put('/:id', consecutiveController.updateConsecutive);
 // Ruta para eliminar un consecutivo
 router.delete('/:id', consecutiveController.deleteConsecutive);
 
+router.patch('/:id', consecutiveController.updateStatus);
+
+
 module.exports = router;

@@ -2,9 +2,17 @@ const express = require('express');
 const db = require('./models'); // Importar correctamente los modelos
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path')
 
 // Inicializamos Express
 const app = express();
+
+app.use('/uploads', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*'); // o restringe a tu frontend: http://localhost:4200
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 app.use(express.json());
 app.use(cors({

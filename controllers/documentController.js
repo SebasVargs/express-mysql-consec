@@ -1,9 +1,19 @@
 const db = require('../models');
 
-// Crear un nuevo documento
 const createDocument = async (req, res) => {
   try {
-    const newDocument = await db.Document.create(req.body);
+    const { id_consecutive, date_charge } = req.body;
+
+    if (!req.file || !id_consecutive || !date_charge) {
+      return res.status(400).json({ message: 'Faltan datos o archivo' });
+    }
+
+    const newDocument = await db.Document.create({
+      source_file: req.file.filename,
+      date_charge,
+      id_consecutive
+    });
+
     res.status(201).json(newDocument);
   } catch (error) {
     res.status(400).json({ message: 'Error al crear el documento', error });

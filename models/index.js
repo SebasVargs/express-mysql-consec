@@ -5,7 +5,7 @@ const sequelize = new Sequelize({
   host: 'localhost',
   dialect: 'mysql',
   username: 'root',    
-  password: '',    
+  password: 'ArmandoVargas34',    
   database: 'conmer',
 });
 

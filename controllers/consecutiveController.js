@@ -83,10 +83,50 @@ const deleteConsecutive = async (req, res) => {
   }
 };
 
+// Actualizar solo el estado de un consecutivo
+const updateStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { id_status } = req.body;
+    
+    // Validar que se proporcione el id_status
+    if (id_status === undefined) {
+      return res.status(400).json({ message: 'Se requiere el campo id_status' });
+    }
+    
+    // Buscar el consecutivo
+    const consecutive = await db.Consecutive.findByPk(id);
+    
+    if (!consecutive) {
+      return res.status(404).json({ message: 'Consecutivo no encontrado' });
+    }
+    
+    // Actualizar solo el estado
+    consecutive.id_status = id_status;
+    await consecutive.save();
+    
+    // Obtener el consecutivo actualizado con la información de estado
+    const updatedConsecutive = await db.Consecutive.findByPk(id, {
+      include: [
+        {
+          model: db.Status,
+          as: 'status'
+        }
+      ]
+    });
+    
+    res.json(updatedConsecutive);
+  } catch (error) {
+    console.error('Error al actualizar el estado del consecutivo:', error);
+    res.status(400).json({ message: 'Error al actualizar el estado del consecutivo', error: error.message });
+  }
+};
+
 module.exports = {
   createConsecutive,
   getAllConsecutives,
   getConsecutiveById,
   updateConsecutive,
-  deleteConsecutive
+  deleteConsecutive,
+  updateStatus
 };
